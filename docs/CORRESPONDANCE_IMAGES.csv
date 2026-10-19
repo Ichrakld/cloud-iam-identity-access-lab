@@ -1,0 +1,29 @@
+fichier_original,fichier_renomme,description
+Screenshot 2026-10-19 115625.png,evidence/01-environnement/01-localstack-demarrage-docker.png,Le conteneur est lancé avec l’application des permissions IAM demandée par le laboratoire. L’option doit être vérifiée par un test de refus réel.
+Screenshot 2026-10-19 115648.png,evidence/01-environnement/02-docker-conteneur-localstack.png,Le conteneur LocalStack apparaît actif et expose le port 4566 sur l’interface locale.
+Screenshot 2026-10-19 115717.png,evidence/01-environnement/03-localstack-verification-health.png,L’API /_localstack/health répond ; la disponibilité des services ne démontre pas à elle seule l’application des politiques IAM.
+Screenshot 2026-10-19 115956.png,evidence/01-environnement/04-configuration-aws-cli-localstack.png,"Identifiants de test et endpoint local 127.0.0.1:4566 : les opérations ciblent l’émulateur, pas AWS en production."
+Screenshot 2026-10-19 120037.png,evidence/01-environnement/05-sts-identite-administrateur.png,STS renvoie l’ARN root du compte simulé 000000000000.
+Screenshot 2026-10-19 120046.png,evidence/01-environnement/06-identifiant-compte-simule.png,Le numéro de compte local 000000000000 est stocké dans ACC pour construire les ARN IAM.
+Screenshot 2026-10-19 120117.png,evidence/02-identites-et-profils/07-creation-utilisateur-controle.png,Un utilisateur sans politique IAM est créé pour tester le refus par défaut.
+Screenshot 2026-10-19 120203.png,evidence/02-identites-et-profils/08-creation-cle-controle.png,Une clé d’accès est créée ; les valeurs sont capturées dans des variables sans afficher la clé secrète.
+Screenshot 2026-10-19 120210.png,evidence/02-identites-et-profils/09-profil-aws-controle.png,Le profil AWS CLI utilise les identifiants propres à controle pour séparer l’authentification administrateur et utilisateur.
+Screenshot 2026-10-19 120257.png,evidence/03-autorisations/10-controle-s3-refus-acces.png,La requête s3:ListAllMyBuckets échoue avec AccessDenied : preuve de l’implicit deny.
+Screenshot 2026-10-19 120440.png,evidence/02-identites-et-profils/11-sts-identite-controle.png,"STS confirme l’ARN user/controle : authentification réussie, sans autorisation S3."
+Screenshot 2026-10-19 120606.png,evidence/02-identites-et-profils/12-nettoyage-controle.png,La clé d’accès de controle et l’utilisateur de test sont supprimés.
+Screenshot 2026-10-19 120633.png,evidence/02-identites-et-profils/13-creation-alice-bob-claire.png,"Alice (data), Bob (audit) et Claire (reseau) sont créés avec leurs tags team."
+Screenshot 2026-10-19 120700.png,evidence/02-identites-et-profils/14-inventaire-utilisateurs.png,La commande list-users confirme l’existence des trois identités IAM.
+Screenshot 2026-10-19 120815.png,evidence/02-identites-et-profils/15-sts-alice-authentification.png,Le profil Alice est reconnu par STS ; cette identité n’a pas encore de droit S3.
+Screenshot 2026-10-19 120854.png,evidence/03-autorisations/16-creation-groupes-iam.png,"Les groupes developpeurs, auditeurs et admins-reseau sont créés."
+Screenshot 2026-10-19 120929.png,evidence/03-autorisations/17-affectation-groupes-iam.png,"Alice appartient à developpeurs, Bob à auditeurs et Claire à admins-reseau."
+Screenshot 2026-10-19 121012.png,evidence/03-autorisations/18-s3-alice-refus-par-defaut.png,Le bucket tp-iam-ichrak est créé par l’administrateur ; Alice obtient AccessDenied sur le listing.
+Screenshot 2026-10-19 121048.png,evidence/03-autorisations/19-politique-s3-lecture-seule-auditeurs.png,"AmazonS3ReadOnlyAccess est attachée au groupe auditeurs, dont Bob est membre."
+Screenshot 2026-10-19 121255.png,evidence/03-autorisations/20-tests-s3-bob-alice.png,Bob peut lister les buckets mais sa tentative de création échoue ; Alice reste refusée.
+Screenshot 2026-10-19 121320.png,evidence/04-mots-de-passe/21-application-politique-mots-de-passe.png,"Configuration demandant au moins 14 caractères, un historique de 5 mots de passe et aucune expiration forcée."
+Screenshot 2026-10-19 121338.png,evidence/04-mots-de-passe/22-verification-politique-mots-de-passe.png,"La réponse IAM confirme MinimumPasswordLength=14, PasswordReusePrevention=5 et ExpirePasswords=false."
+Screenshot 2026-10-19 122234.png,evidence/05-mfa/23-installation-oathtool.png,Installation de l’outil permettant de calculer des codes TOTP dans le laboratoire.
+Screenshot 2026-10-19 122310.png,evidence/05-mfa/24-creation-appareil-mfa-virtuel.png,L’appareil alice-mfa est créé et son ARN apparaît ; le secret Base32 reste privé.
+Screenshot 2026-10-19 122859.png,evidence/05-mfa/25-activation-mfa-codes-expurges.png,Commande d’activation du MFA pour Alice. Les deux codes TOTP présents dans l’original ont été intégralement masqués.
+Screenshot 2026-10-19 122931.png,evidence/05-mfa/26-verification-mfa-alice.png,list-mfa-devices atteste l’enrôlement du dispositif alice-mfa pour Alice.
+Screenshot 2026-10-19 123021.png,evidence/06-inventaire/27-rapport-identites-iam.png,"Le credential report liste les champs user, mfa_active et access_key_1_active."
+Screenshot 2026-10-19 123139.png,evidence/06-inventaire/28-confirmation-rapport-identites.png,"L’inventaire confirme Alice MFA=true, Bob/Claire MFA=false, et des clés d’accès actives pour les trois comptes."

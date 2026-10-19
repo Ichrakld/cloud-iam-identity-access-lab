@@ -1,0 +1,10 @@
+*.env
+.env
+.env.*
+**/alice-seed.txt
+**/credentials
+**/config.local
+*.pem
+*.key
+__pycache__/
+.venv/
